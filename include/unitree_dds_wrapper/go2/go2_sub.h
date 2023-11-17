@@ -1,9 +1,10 @@
 #ifndef _UT_ROBOT_GO2_SUBSCRIPTION_WRAPPER_H_
 #define _UT_ROBOT_GO2_SUBSCRIPTION_WRAPPER_H_
 
+#include <eigen3/Eigen/Dense>
+#include <unordered_map>
 #include "unitree_dds_wrapper/common/Subscription.h"
 #include "unitree_dds_wrapper/common/unitree_joystick.hpp"
-#include "eigen3/Eigen/Dense"
 
 #include <unitree/idl/go2/LowCmd_.hpp>
 #include <unitree/idl/go2/LowState_.hpp>
@@ -22,6 +23,31 @@ namespace robot
 {
 namespace go2
 { 
+
+enum class FSMMode{
+  idle = 0,
+  balanceStand = 1,
+  pose = 2,
+  locomotion = 3,
+  lieDown = 5,
+  jointLock = 6,
+  damping = 7,
+  recoveryStand = 8,
+  sit = 10,
+  frontFlip = 11,
+  frontJump = 12,
+  frontPounc = 13,
+};
+
+enum class GaitType{
+  idle = 0,
+  trot = 1,
+  run = 2,
+  climb_stair = 3,
+  forwardDownStair = 4,
+  adjust = 9,
+};
+
 namespace subscription
 {
 
@@ -95,14 +121,43 @@ public:
 
   SportModeState() : SubscriptionBase<MsgType>("rt/sportmodestate") {}
 
-  const Eigen::Vector3f position() {
+  std::string state_name() const { return FSMModeStringMap.at(msg_.mode()); }
+
+  /**
+   * 0 : idle
+   * 1 : trot
+   * 2 : run
+   * 3 : climb_stair
+   * 4 : forwardDownStair
+   * 9 : adjust
+   */
+  uint32_t    gaitType()   const { return msg_.gait_type(); }
+  
+  const Eigen::Vector3f position() const {
     return Eigen::Map<const Eigen::Vector3f>(msg_.position().data());
   }
-
-  const Eigen::Vector3f velocity() {
+  const Eigen::Vector3f velocity() const{
     return Eigen::Map<const Eigen::Vector3f>(msg_.velocity().data());
   }
 
+
+private:
+  const std::unordered_map<uint8_t, std::string> FSMModeStringMap = {
+    {0, "idle"},
+    {1, "balanceStand"},
+    {2, "pose"},
+    {3, "locomotion"},
+    {4, "reserve"},
+    {5, "lieDown"},
+    {6, "jointLock"},
+    {7, "damping"},
+    {8, "recoveryStand"},
+    {9, "reserve"},
+    {10, "sit"},
+    {11, "frontFlip"},
+    {12, "frontJump"},
+    {13, "frontPounce"},
+  };
 };
 
 class LidarState : public SubscriptionBase<unitree_go::msg::dds_::LidarState_>

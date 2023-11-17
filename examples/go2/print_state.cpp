@@ -20,7 +20,7 @@ int main(int argc, char** argv)
 
     if(!sport_state->isTimeout())
       std::cout <<" ***** SportMode State ***** " << std::endl;
-      std::cout <<"mode: " << (int)sport_state->msg_.mode() << std::endl;
+      std::cout <<"mode: " << sport_state->state_name() << std::endl;
       std::cout <<"position: " << sport_state->position().transpose()
                 << " velocity: " << sport_state->velocity().transpose() << std::endl;
 

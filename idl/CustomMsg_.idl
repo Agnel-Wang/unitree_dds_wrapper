@@ -1,0 +1,26 @@
+#ifndef __unitree__custom_message__idl__
+#define __unitree__custom_message__idl__
+
+#include "Vector3_.idl"
+
+module unitree
+{
+module msg
+{
+module dds_
+{
+  struct CustomMessage_
+  {
+    octet         u8_data;
+    unsigned long u32_data;
+    float         float_data;
+    double        double_data;
+    octet         array_data[10];
+    sequence<octet> vector_data;
+    geometry_msgs::msg::dds_::Vector3_ other_type_data;
+  };
+}; // dds_
+}; // msg
+}; // unitree
+
+#endif // __unitree__custom_message__idl__

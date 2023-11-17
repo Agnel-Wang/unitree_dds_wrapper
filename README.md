@@ -4,6 +4,7 @@ This project aims to simplify the communication with [Unitree Robots](https://gi
 
 There is no need for each one to implement DDS `publisher` & `subscriber` every time.
 
+
 ## Setup
 
 **Dependencies**
@@ -15,7 +16,7 @@ sudo cp -r include/unitree_dds_wrapper /usr/local/include/unitree
 
 ## Examples
 
-+ Subscriber
++ **Subscriber**
 
 ```cpp
 auto low_state = std::make_shared<unitree::robot::go2::subscription::LowState>();
@@ -31,7 +32,7 @@ while(true)
 }
 ```
 
-+ Publisher
++ **Publisher**
 
 ```cpp
 auto low_cmd = std::make_unique<unitree::robot::go2::publisher::RealTimeLowCmd>();
@@ -53,4 +54,23 @@ while(true)
   count += 1;
   usleep(2000);
 }
+```
+
+## Custom message
+
+You can also add your custom message easily.
+
+1. Define your idl message. (see [CustomMsg_.idl](idl/CustomMsg_.idl))
+2. Generate cpp file
+```bash
+cd idl
+./cxx_gen.sh
+```
+This will generate `include`&`lib` directories in idl directory.
+3. See example [custom_message.cpp](examples/custom/custom_message.cpp)
+```
+cd build
+cmake -DBUILD_CUSTOM_MESSAGE=True ..
+make
+./custom_message
 ```
