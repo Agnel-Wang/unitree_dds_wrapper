@@ -61,12 +61,14 @@ while(true)
 You can also add your custom message easily.
 
 1. Define your idl message. (see [CustomMsg_.idl](idl/CustomMsg_.idl))
-2. Generate cpp file
+
+2. Generate cpp files
 ```bash
 cd idl
 ./cxx_gen.sh
 ```
 This will generate `include`&`lib` directories in idl directory.
+
 3. See example [custom_message.cpp](examples/custom/custom_message.cpp)
 ```
 cd build
