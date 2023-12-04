@@ -3,8 +3,8 @@
 
 #include <eigen3/Eigen/Dense>
 #include <unordered_map>
-#include "unitree_dds_wrapper/common/Subscription.h"
-#include "unitree_dds_wrapper/common/unitree_joystick.hpp"
+#include "unitree/dds_wrapper/common/Subscription.h"
+#include "unitree/dds_wrapper/common/unitree_joystick.hpp"
 
 #include <unitree/idl/go2/LowCmd_.hpp>
 #include <unitree/idl/go2/LowState_.hpp>

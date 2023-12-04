@@ -1,8 +1,8 @@
 #ifndef _UT_ROBOT_GO2_PUBLISHER_WRAPPER_H_
 #define _UT_ROBOT_GO2_PUBLISHER_WRAPPER_H_
 
-#include "unitree_dds_wrapper/common/Publisher.h"
-#include "unitree_dds_wrapper/common/crc.h"
+#include "unitree/dds_wrapper/common/Publisher.h"
+#include "unitree/dds_wrapper/common/crc.h"
 
 #include <unitree/idl/go2/LowCmd_.hpp>
 #include <unitree/idl/go2/LowState_.hpp>
@@ -34,7 +34,7 @@ class RealTimeLowCmd : public RealTimePublisher<unitree_go::msg::dds_::LowCmd_>
 {
 public:
   RealTimeLowCmd(PublisherSharedPtr publisher = std::make_shared<LowCmd>())
-  : RealTimePublisher<unitree_go::msg::dds_::LowCmd_>(publisher) 
+  : RealTimePublisher<MsgType>(publisher) 
   {
     msg_.head() = {0xFE, 0xEF};
     msg_.level_flag() = 0xFF;
@@ -62,8 +62,10 @@ public:
   }
 
 private:
-  void TearDown() override
-  {
+  /**
+   * @brief Something before sending the message.
+   */
+  void TearDown() override {
     msg_.crc() = crc32_core((uint32_t*)&msg_, (sizeof(MsgType)>>2)-1);
   }
 };

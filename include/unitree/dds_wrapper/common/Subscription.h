@@ -26,19 +26,16 @@ public:
     });
   }
 
-  void set_timeout_ms(int timeout_ms)
-  {
-    timeout_ms_ = timeout_ms > 0 ? timeout_ms : 0;
-  }
+  void set_timeout_ms(uint32_t timeout_ms) { timeout_ms_ = timeout_ms; }
 
-  bool isTimeout()
-  {
-    return std::chrono::duration_cast<std::chrono::milliseconds>(
-      std::chrono::steady_clock::now() - last_update_time_).count() > timeout_ms_;
+  bool isTimeout() {
+    auto now = std::chrono::steady_clock::now();
+    auto elasped_time = now - last_update_time_;
+    return elasped_time > std::chrono::milliseconds(timeout_ms_);
   }
   MessageType msg_;
 protected:
-  int timeout_ms_{1000};
+  uint32_t timeout_ms_{1000};
   std::mutex mutex_;
   unitree::robot::ChannelSubscriberPtr<MessageType> sub_;
   std::chrono::steady_clock::time_point last_update_time_;

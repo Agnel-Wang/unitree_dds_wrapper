@@ -1,5 +1,5 @@
-#include "unitree_dds_wrapper/go2/go2_sub.h"
-#include "unitree_dds_wrapper/go2/go2_pub.h"
+#include "unitree/dds_wrapper/go2/go2_sub.h"
+#include "unitree/dds_wrapper/go2/go2_pub.h"
 #include <unitree/common/thread/recurrent_thread.hpp>
 
 /**

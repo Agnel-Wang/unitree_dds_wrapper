@@ -1,4 +1,4 @@
-#include "unitree_dds_wrapper/go2/go2_sub.h"
+#include "unitree/dds_wrapper/go2/go2_sub.h"
 
 int main(int argc, char** argv)
 {

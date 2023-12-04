@@ -2,16 +2,15 @@
 
 This project aims to simplify the communication with [Unitree Robots](https://github.com/unitreerobotics).
 
-There is no need for each one to implement DDS `publisher` & `subscriber` every time.
+There is no need to implement DDS `publisher` & `subscriber` each time.
 
-
-## Setup
+## Usage
 
 **Dependencies**
 + [unitree_sdk2](https://github.com/unitreerobotics/unitree_sdk2)
 
 ```
-sudo cp -r include/unitree_dds_wrapper /usr/local/include/unitree
+sudo cp -r include/unitree/dds_wrapper /usr/local/include/unitree
 ```
 
 ## Examples
@@ -72,7 +71,6 @@ This will generate `include`&`lib` directories in idl directory.
 3. See example [custom_message.cpp](examples/custom/custom_message.cpp)
 ```
 cd build
-cmake -DBUILD_CUSTOM_MESSAGE=True ..
-make
+cmake -DBUILD_CUSTOM_MESSAGE=True .. && make
 ./custom_message
 ```

@@ -10,7 +10,6 @@ namespace common
 {
     
 // ***************************** Unitree Joystick Data Type ***************************** //
-
 typedef union
 {
   struct
@@ -50,7 +49,7 @@ typedef struct
 typedef union
 {
   BtnDataStruct RF_RX;
-  uint8_t buff[40];   //凑40字节
+  uint8_t buff[40];
 }REMOTE_DATA_RX;
 
 // ***************************** Button & Axis ***************************** //
@@ -104,7 +103,7 @@ private:
 
 struct UnitreeJoystick
 {
-  // 采用标准手柄键位名称
+  // Adopts standard joystick key names
   Button<int> back;
   Button<int> start;
   // Button<int> LS;
