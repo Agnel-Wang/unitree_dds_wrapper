@@ -9,8 +9,8 @@ class Subscription:
   message: 消息类型
   topic: 话题名称
   """
-  def __init__(self, message, topic):
-    self._participant = DomainParticipant()
+  def __init__(self, message, topic, participant = None):
+    self._participant = participant if participant else DomainParticipant()
     self._topic = Topic(self._participant, topic, message)
     self._reader = DataReader(self._participant, self._topic)
     
