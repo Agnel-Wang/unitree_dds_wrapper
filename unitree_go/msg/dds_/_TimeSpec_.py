@@ -8,7 +8,7 @@
 
 from enum import auto
 from typing import TYPE_CHECKING, Optional
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 
 import cyclonedds.idl as idl
 import cyclonedds.idl.annotations as annotate
@@ -22,7 +22,7 @@ import unitree_go
 @annotate.final
 @annotate.autoid("sequential")
 class TimeSpec_(idl.IdlStruct, typename="unitree_go.msg.dds_.TimeSpec_"):
-    sec: types.int32
-    nanosec: types.uint32
+    sec: types.int32 = field(default_factory=lambda: 0)
+    nanosec: types.uint32 = field(default_factory=lambda: 0)
 
 

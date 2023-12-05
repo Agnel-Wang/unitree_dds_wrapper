@@ -8,7 +8,7 @@
 
 from enum import auto
 from typing import TYPE_CHECKING, Optional
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 
 import cyclonedds.idl as idl
 import cyclonedds.idl.annotations as annotate
@@ -22,10 +22,10 @@ import unitree_go
 @annotate.final
 @annotate.autoid("sequential")
 class IMUState_(idl.IdlStruct, typename="unitree_go.msg.dds_.IMUState_"):
-    quaternion: types.array[types.float32, 4]
-    gyroscope: types.array[types.float32, 3]
-    accelerometer: types.array[types.float32, 3]
-    rpy: types.array[types.float32, 3]
-    temperature: types.uint8
+    quaternion: types.array[types.float32, 4] = field(default_factory=lambda: [1, 0, 0, 0])
+    gyroscope: types.array[types.float32, 3] = field(default_factory=lambda: [0, 0, 0])
+    accelerometer: types.array[types.float32, 3] = field(default_factory=lambda: [0, 0, 0])
+    rpy: types.array[types.float32, 3] = field(default_factory=lambda: [0, 0, 0])
+    temperature: types.uint8 = field(default_factory=lambda: 0)
 
 

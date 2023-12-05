@@ -8,7 +8,7 @@
 
 from enum import auto
 from typing import TYPE_CHECKING, Optional
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 
 import cyclonedds.idl as idl
 import cyclonedds.idl.annotations as annotate
@@ -22,12 +22,12 @@ import unitree_go
 @annotate.final
 @annotate.autoid("sequential")
 class HeightMap_(idl.IdlStruct, typename="unitree_go.msg.dds_.HeightMap_"):
-    stamp: types.float64
-    frame_id: str
-    resolution: types.float32
-    width: types.uint32
-    height: types.uint32
-    origin: types.array[types.float32, 2]
-    data: types.sequence[types.float32]
+    stamp: types.float64 = field(default_factory=lambda: 0.0)
+    frame_id: str = field(default_factory=lambda: "")
+    resolution: types.float32 = field(default_factory=lambda: 0.0)
+    width: types.uint32 = field(default_factory=lambda: 0)
+    height: types.uint32 = field(default_factory=lambda: 0)
+    origin: types.array[types.float32, 2] = field(default_factory=lambda: [0.0, 0.0])
+    data: types.sequence[types.float32] = field(default_factory=lambda: types.sequence(types.float32, 0))
 
 

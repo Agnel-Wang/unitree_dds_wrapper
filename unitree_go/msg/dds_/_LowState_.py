@@ -8,7 +8,7 @@
 
 from enum import auto
 from typing import TYPE_CHECKING, Optional
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 
 import cyclonedds.idl as idl
 import cyclonedds.idl.annotations as annotate
@@ -22,27 +22,27 @@ import unitree_go
 @annotate.final
 @annotate.autoid("sequential")
 class LowState_(idl.IdlStruct, typename="unitree_go.msg.dds_.LowState_"):
-    head: types.array[types.uint8, 2]
-    level_flag: types.uint8
-    frame_reserve: types.uint8
-    sn: types.array[types.uint32, 2]
-    version: types.array[types.uint32, 2]
-    bandwidth: types.uint16
-    imu_state: 'unitree_go.msg.dds_.IMUState_'
-    motor_state: types.array['unitree_go.msg.dds_.MotorState_', 20]
-    bms_state: 'unitree_go.msg.dds_.BmsState_'
-    foot_force: types.array[types.int16, 4]
-    foot_force_est: types.array[types.int16, 4]
-    tick: types.uint32
-    wireless_remote: types.array[types.uint8, 40]
-    bit_flag: types.uint8
-    adc_reel: types.float32
-    temperature_ntc1: types.uint8
-    temperature_ntc2: types.uint8
-    power_v: types.float32
-    power_a: types.float32
-    fan_frequency: types.array[types.uint16, 4]
-    reserve: types.uint32
-    crc: types.uint32
+    head: types.array[types.uint8, 2] = field(default_factory=lambda: [0, 0])
+    level_flag: types.uint8 = field(default_factory=lambda: 0)
+    frame_reserve: types.uint8 = field(default_factory=lambda: 0)
+    sn: types.array[types.uint32, 2] = field(default_factory=lambda: [0, 0])
+    version: types.array[types.uint32, 2] = field(default_factory=lambda: [0, 0])
+    bandwidth: types.uint16 = field(default_factory=lambda: 0)
+    imu_state: 'unitree_go.msg.dds_.IMUState_' = field(default_factory=lambda: unitree_go.msg.dds_.IMUState_())
+    motor_state: types.array['unitree_go.msg.dds_.MotorState_', 20] = field(default_factory=lambda: [unitree_go.msg.dds_.MotorState_() for _ in range(20)])
+    bms_state: 'unitree_go.msg.dds_.BmsState_' = field(default_factory=lambda: unitree_go.msg.dds_.BmsState_())
+    foot_force: types.array[types.int16, 4] = field(default_factory=lambda: [0 for _ in range(4)])
+    foot_force_est: types.array[types.int16, 4] = field(default_factory=lambda: [0 for _ in range(4)])
+    tick: types.uint32 = field(default_factory=lambda: 0)
+    wireless_remote: types.array[types.uint8, 40] = field(default_factory=lambda: [0 for _ in range(40)])
+    bit_flag: types.uint8 = field(default_factory=lambda: 0)
+    adc_reel: types.float32 = field(default_factory=lambda: 0)
+    temperature_ntc1: types.uint8 = field(default_factory=lambda: 0)
+    temperature_ntc2: types.uint8 = field(default_factory=lambda: 0)
+    power_v: types.float32 = field(default_factory=lambda: 0)
+    power_a: types.float32 = field(default_factory=lambda: 0)
+    fan_frequency: types.array[types.uint16, 4] = field(default_factory=lambda: [0 for _ in range(4)])
+    reserve: types.uint32 = field(default_factory=lambda: 0)
+    crc: types.uint32 = field(default_factory=lambda: 0)
 
 

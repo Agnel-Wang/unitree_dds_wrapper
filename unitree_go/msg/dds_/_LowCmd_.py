@@ -8,7 +8,7 @@
 
 from enum import auto
 from typing import TYPE_CHECKING, Optional
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 
 import cyclonedds.idl as idl
 import cyclonedds.idl.annotations as annotate
@@ -22,19 +22,19 @@ import unitree_go
 @annotate.final
 @annotate.autoid("sequential")
 class LowCmd_(idl.IdlStruct, typename="unitree_go.msg.dds_.LowCmd_"):
-    head: types.array[types.uint8, 2]
-    level_flag: types.uint8
-    frame_reserve: types.uint8
-    sn: types.array[types.uint32, 2]
-    version: types.array[types.uint32, 2]
-    bandwidth: types.uint16
-    motor_cmd: types.array['unitree_go.msg.dds_.MotorCmd_', 20]
-    bms_cmd: 'unitree_go.msg.dds_.BmsCmd_'
-    wireless_remote: types.array[types.uint8, 40]
-    led: types.array[types.uint8, 12]
-    fan: types.array[types.uint8, 2]
-    gpio: types.uint8
-    reserve: types.uint32
-    crc: types.uint32
+    head: types.array[types.uint8, 2] = field(default_factory=lambda: [0xFE, 0xEF])
+    level_flag: types.uint8 = field(default_factory=lambda: 0xFF)
+    frame_reserve: types.uint8 = field(default_factory=lambda: 0)
+    sn: types.array[types.uint32, 2] = field(default_factory=lambda: [0, 0])
+    version: types.array[types.uint32, 2] = field(default_factory=lambda: [0, 0])
+    bandwidth: types.uint16 = field(default_factory=lambda: 0)
+    motor_cmd: types.array['unitree_go.msg.dds_.MotorCmd_', 20] = field(default_factory=lambda: [unitree_go.msg.dds_.MotorCmd_() for _ in range(20)])
+    bms_cmd: 'unitree_go.msg.dds_.BmsCmd_' = field(default_factory=lambda: unitree_go.msg.dds_.BmsCmd_())
+    wireless_remote: types.array[types.uint8, 40] = field(default_factory=lambda: [0 for _ in range(40)])
+    led: types.array[types.uint8, 12] = field(default_factory=lambda: [0 for _ in range(12)])
+    fan: types.array[types.uint8, 2] = field(default_factory=lambda: [0, 0])
+    gpio: types.uint8 = field(default_factory=lambda: 0)
+    reserve: types.uint32 = field(default_factory=lambda: 0)
+    crc: types.uint32 = field(default_factory=lambda: 0)
 
 

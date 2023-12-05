@@ -8,7 +8,7 @@
 
 from enum import auto
 from typing import TYPE_CHECKING, Optional
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 
 import cyclonedds.idl as idl
 import cyclonedds.idl.annotations as annotate
@@ -22,9 +22,9 @@ import unitree_go
 @annotate.final
 @annotate.autoid("sequential")
 class Go2FrontVideoData_(idl.IdlStruct, typename="unitree_go.msg.dds_.Go2FrontVideoData_"):
-    time_frame: types.uint64
-    video720p: types.sequence[types.uint8]
-    video360p: types.sequence[types.uint8]
-    video180p: types.sequence[types.uint8]
+    time_frame: types.uint64 = field(default_factory=lambda: 0)
+    video720p: types.sequence[types.uint8] = field(default_factory=lambda: [0])
+    video360p: types.sequence[types.uint8] = field(default_factory=lambda: [0])
+    video180p: types.sequence[types.uint8] = field(default_factory=lambda: [0])
 
 

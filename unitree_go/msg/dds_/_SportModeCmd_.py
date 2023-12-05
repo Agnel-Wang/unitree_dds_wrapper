@@ -8,7 +8,7 @@
 
 from enum import auto
 from typing import TYPE_CHECKING, Optional
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 
 import cyclonedds.idl as idl
 import cyclonedds.idl.annotations as annotate
@@ -22,16 +22,16 @@ import unitree_go
 @annotate.final
 @annotate.autoid("sequential")
 class SportModeCmd_(idl.IdlStruct, typename="unitree_go.msg.dds_.SportModeCmd_"):
-    mode: types.uint8
-    gait_type: types.uint8
-    speed_level: types.uint8
-    foot_raise_height: types.float32
-    body_height: types.float32
-    position: types.array[types.float32, 2]
-    euler: types.array[types.float32, 3]
-    velocity: types.array[types.float32, 2]
-    yaw_speed: types.float32
-    bms_cmd: 'unitree_go.msg.dds_.BmsCmd_'
-    path_point: types.array['unitree_go.msg.dds_.PathPoint_', 30]
+    mode: types.uint8 = field(default_factory=lambda: 0)
+    gait_type: types.uint8 = field(default_factory=lambda: 0)
+    speed_level: types.uint8 = field(default_factory=lambda: 0)
+    foot_raise_height: types.float32 = field(default_factory=lambda: 0.0)
+    body_height: types.float32 = field(default_factory=lambda: 0.0)
+    position: types.array[types.float32, 2] = field(default_factory=lambda: [0.0, 0.0])
+    euler: types.array[types.float32, 3] = field(default_factory=lambda: [0.0, 0.0, 0.0])
+    velocity: types.array[types.float32, 2] = field(default_factory=lambda: [0.0, 0.0])
+    yaw_speed: types.float32 = field(default_factory=lambda: 0.0)
+    bms_cmd: 'unitree_go.msg.dds_.BmsCmd_' = field(default_factory=lambda: unitree_go.msg.dds_.BmsCmd_())
+    path_point: types.array['unitree_go.msg.dds_.PathPoint_', 30] = field(default_factory=lambda: [unitree_go.msg.dds_.PathPoint_() for _ in range(30)])
 
 

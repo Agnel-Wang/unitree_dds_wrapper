@@ -8,7 +8,7 @@
 
 from enum import auto
 from typing import TYPE_CHECKING, Optional
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 
 import cyclonedds.idl as idl
 import cyclonedds.idl.annotations as annotate
@@ -22,7 +22,7 @@ import unitree_go
 @annotate.final
 @annotate.autoid("sequential")
 class Req_(idl.IdlStruct, typename="unitree_go.msg.dds_.Req_"):
-    uuid: str
-    body: str
+    uuid: str = field(default_factory=lambda: "")
+    body: str = field(default_factory=lambda: "")
 
 

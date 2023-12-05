@@ -8,7 +8,7 @@
 
 from enum import auto
 from typing import TYPE_CHECKING, Optional
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 
 import cyclonedds.idl as idl
 import cyclonedds.idl.annotations as annotate
@@ -22,12 +22,12 @@ import unitree_go
 @annotate.final
 @annotate.autoid("sequential")
 class PathPoint_(idl.IdlStruct, typename="unitree_go.msg.dds_.PathPoint_"):
-    t_from_start: types.float32
-    x: types.float32
-    y: types.float32
-    yaw: types.float32
-    vx: types.float32
-    vy: types.float32
-    vyaw: types.float32
+    t_from_start: types.float32 = field(default_factory=lambda: 0)
+    x: types.float32 = field(default_factory=lambda: 0)
+    y: types.float32 = field(default_factory=lambda: 0)
+    yaw: types.float32 = field(default_factory=lambda: 0)
+    vx: types.float32 = field(default_factory=lambda: 0)
+    vy: types.float32 = field(default_factory=lambda: 0)
+    vyaw: types.float32 = field(default_factory=lambda: 0)
 
 

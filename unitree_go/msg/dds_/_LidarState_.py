@@ -8,7 +8,7 @@
 
 from enum import auto
 from typing import TYPE_CHECKING, Optional
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 
 import cyclonedds.idl as idl
 import cyclonedds.idl.annotations as annotate
@@ -22,23 +22,23 @@ import unitree_go
 @annotate.final
 @annotate.autoid("sequential")
 class LidarState_(idl.IdlStruct, typename="unitree_go.msg.dds_.LidarState_"):
-    stamp: types.float64
-    firmware_version: str
-    software_version: str
-    sdk_version: str
-    sys_rotation_speed: types.float32
-    com_rotation_speed: types.float32
-    error_state: types.uint8
-    dirty_percentage: types.uint8
-    cloud_frequency: types.float32
-    cloud_packet_loss_rate: types.float32
-    cloud_size: types.uint32
-    cloud_scan_num: types.uint32
-    imu_frequency: types.float32
-    imu_packet_loss_rate: types.float32
-    imu_rpy: types.array[types.float32, 3]
-    serial_recv_stamp: types.float64
-    serial_buffer_size: types.uint32
-    serial_buffer_read: types.uint32
+    stamp: types.float64 = field(default_factory=lambda: 0.0)
+    firmware_version: str = field(default_factory=lambda: "")
+    software_version: str = field(default_factory=lambda: "")
+    sdk_version: str = field(default_factory=lambda: "")
+    sys_rotation_speed: types.float32 = field(default_factory=lambda: 0.0)
+    com_rotation_speed: types.float32 = field(default_factory=lambda: 0.0)
+    error_state: types.uint8 = field(default_factory=lambda: 0)
+    dirty_percentage: types.uint8 = field(default_factory=lambda: 0)
+    cloud_frequency: types.float32 = field(default_factory=lambda: 0.0)
+    cloud_packet_loss_rate: types.float32 = field(default_factory=lambda: 0.0)
+    cloud_size: types.uint32 = field(default_factory=lambda: 0)
+    cloud_scan_num: types.uint32 = field(default_factory=lambda: 0)
+    imu_frequency: types.float32 = field(default_factory=lambda: 0.0)
+    imu_packet_loss_rate: types.float32 = field(default_factory=lambda: 0.0)
+    imu_rpy: types.array[types.float32, 3] = field(default_factory=lambda: [0, 0, 0])
+    serial_recv_stamp: types.float64 = field(default_factory=lambda: 0.0)
+    serial_buffer_size: types.uint32 = field(default_factory=lambda: 0)
+    serial_buffer_read: types.uint32 = field(default_factory=lambda: 0)
 
 

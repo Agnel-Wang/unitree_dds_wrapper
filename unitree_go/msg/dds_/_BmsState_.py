@@ -8,7 +8,7 @@
 
 from enum import auto
 from typing import TYPE_CHECKING, Optional
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 
 import cyclonedds.idl as idl
 import cyclonedds.idl.annotations as annotate
@@ -22,14 +22,14 @@ import unitree_go
 @annotate.final
 @annotate.autoid("sequential")
 class BmsState_(idl.IdlStruct, typename="unitree_go.msg.dds_.BmsState_"):
-    version_high: types.uint8
-    version_low: types.uint8
-    status: types.uint8
-    soc: types.uint8
-    current: types.int32
-    cycle: types.uint16
-    bq_ntc: types.array[types.uint8, 2]
-    mcu_ntc: types.array[types.uint8, 2]
-    cell_vol: types.array[types.uint16, 15]
+    version_high: types.uint8 = field(default_factory=lambda: 0)
+    version_low: types.uint8 = field(default_factory=lambda: 0)
+    status: types.uint8 = field(default_factory=lambda: 0)
+    soc: types.uint8 = field(default_factory=lambda: 0)
+    current: types.int32 = field(default_factory=lambda: 0)
+    cycle: types.uint16 = field(default_factory=lambda: 0)
+    bq_ntc: types.array[types.uint8, 2] = field(default_factory=lambda: [0, 0])
+    mcu_ntc: types.array[types.uint8, 2] = field(default_factory=lambda: [0, 0])
+    cell_vol: types.array[types.uint16, 15] = field(default_factory=lambda: [0 for _ in range(15)])
 
 

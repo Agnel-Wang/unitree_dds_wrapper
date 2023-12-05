@@ -8,7 +8,7 @@
 
 from enum import auto
 from typing import TYPE_CHECKING, Optional
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 
 import cyclonedds.idl as idl
 import cyclonedds.idl.annotations as annotate
@@ -22,10 +22,10 @@ import unitree_go
 @annotate.final
 @annotate.autoid("sequential")
 class WirelessController_(idl.IdlStruct, typename="unitree_go.msg.dds_.WirelessController_"):
-    lx: types.float32
-    ly: types.float32
-    rx: types.float32
-    ry: types.float32
-    keys: types.uint16
+    lx: types.float32 = field(default_factory=lambda: 0)
+    ly: types.float32 = field(default_factory=lambda: 0)
+    rx: types.float32 = field(default_factory=lambda: 0)
+    ry: types.float32 = field(default_factory=lambda: 0)
+    keys: types.uint16 = field(default_factory=lambda: 0)
 
 

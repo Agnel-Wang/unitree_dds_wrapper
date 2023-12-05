@@ -8,7 +8,7 @@
 
 from enum import auto
 from typing import TYPE_CHECKING, Optional
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 
 import cyclonedds.idl as idl
 import cyclonedds.idl.annotations as annotate
@@ -22,21 +22,21 @@ import unitree_go
 @annotate.final
 @annotate.autoid("sequential")
 class SportModeState_(idl.IdlStruct, typename="unitree_go.msg.dds_.SportModeState_"):
-    stamp: 'unitree_go.msg.dds_.TimeSpec_'
-    error_code: types.uint32
-    imu_state: 'unitree_go.msg.dds_.IMUState_'
-    mode: types.uint8
-    progress: types.float32
-    gait_type: types.uint8
-    foot_raise_height: types.float32
-    position: types.array[types.float32, 3]
-    body_height: types.float32
-    velocity: types.array[types.float32, 3]
-    yaw_speed: types.float32
-    range_obstacle: types.array[types.float32, 4]
-    foot_force: types.array[types.int16, 4]
-    foot_position_body: types.array[types.float32, 12]
-    foot_speed_body: types.array[types.float32, 12]
-    path_point: types.array['unitree_go.msg.dds_.PathPoint_', 10]
+    stamp: 'unitree_go.msg.dds_.TimeSpec_' = field(default_factory=lambda: unitree_go.msg.dds_.TimeSpec_())
+    error_code: types.uint32 = field(default_factory=lambda: 0)
+    imu_state: 'unitree_go.msg.dds_.IMUState_' = field(default_factory=lambda: unitree_go.msg.dds_.IMUState_())
+    mode: types.uint8 = field(default_factory=lambda: 0)
+    progress: types.float32 = field(default_factory=lambda: 0)
+    gait_type: types.uint8 = field(default_factory=lambda: 0)
+    foot_raise_height: types.float32 = field(default_factory=lambda: 0)
+    position: types.array[types.float32, 3] = field(default_factory=lambda: [0, 0, 0])
+    body_height: types.float32 = field(default_factory=lambda: 0)
+    velocity: types.array[types.float32, 3] = field(default_factory=lambda: [0, 0, 0])
+    yaw_speed: types.float32 = field(default_factory=lambda: 0)
+    range_obstacle: types.array[types.float32, 4] = field(default_factory=lambda: [0, 0, 0, 0])
+    foot_force: types.array[types.int16, 4] = field(default_factory=lambda: [0, 0, 0, 0])
+    foot_position_body: types.array[types.float32, 12] = field(default_factory=lambda: [0 for _ in range(12)])
+    foot_speed_body: types.array[types.float32, 12] = field(default_factory=lambda: [0 for _ in range(12)])
+    path_point: types.array['unitree_go.msg.dds_.PathPoint_', 10] = field(default_factory=lambda: [unitree_go.msg.dds_.PathPoint_() for _ in range(10)])
 
 

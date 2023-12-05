@@ -8,7 +8,7 @@
 
 from enum import auto
 from typing import TYPE_CHECKING, Optional
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 
 import cyclonedds.idl as idl
 import cyclonedds.idl.annotations as annotate
@@ -22,12 +22,12 @@ import unitree_go
 @annotate.final
 @annotate.autoid("sequential")
 class MotorCmd_(idl.IdlStruct, typename="unitree_go.msg.dds_.MotorCmd_"):
-    mode: types.uint8
-    q: types.float32
-    dq: types.float32
-    tau: types.float32
-    kp: types.float32
-    kd: types.float32
-    reserve: types.array[types.uint32, 3]
+    mode: types.uint8 = field(default_factory=lambda: 1)
+    q: types.float32 = field(default_factory=lambda: 0)
+    dq: types.float32 = field(default_factory=lambda: 0)
+    tau: types.float32 = field(default_factory=lambda: 0)
+    kp: types.float32 = field(default_factory=lambda: 0)
+    kd: types.float32 = field(default_factory=lambda: 0)
+    reserve: types.array[types.uint32, 3] = field(default_factory=lambda: [0, 0, 0])
 
 
