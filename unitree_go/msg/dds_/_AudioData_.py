@@ -23,6 +23,6 @@ import unitree_go
 @annotate.autoid("sequential")
 class AudioData_(idl.IdlStruct, typename="unitree_go.msg.dds_.AudioData_"):
     time_frame: types.uint64 = field(default_factory=lambda: 0)
-    data: types.sequence[types.uint8] = field(default_factory=lambda: [0])
+    data: types.sequence[types.uint8] = field(default_factory=lambda: [])
 
 

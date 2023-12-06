@@ -23,7 +23,7 @@ import unitree_go
 @annotate.autoid("sequential")
 class Res_(idl.IdlStruct, typename="unitree_go.msg.dds_.Res_"):
     uuid: str = field(default_factory=lambda: "")
-    data: types.sequence[types.uint8] = field(default_factory=lambda: [0])
+    data: types.sequence[types.uint8] = field(default_factory=lambda: [])
     body: str = field(default_factory=lambda: "")
 
 

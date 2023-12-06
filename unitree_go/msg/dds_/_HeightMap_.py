@@ -28,6 +28,6 @@ class HeightMap_(idl.IdlStruct, typename="unitree_go.msg.dds_.HeightMap_"):
     width: types.uint32 = field(default_factory=lambda: 0)
     height: types.uint32 = field(default_factory=lambda: 0)
     origin: types.array[types.float32, 2] = field(default_factory=lambda: [0.0, 0.0])
-    data: types.sequence[types.float32] = field(default_factory=lambda: types.sequence(types.float32, 0))
+    data: types.sequence[types.float32] = field(default_factory=lambda: [])
 
 

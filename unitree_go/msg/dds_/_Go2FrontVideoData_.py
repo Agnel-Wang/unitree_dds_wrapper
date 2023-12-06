@@ -23,8 +23,8 @@ import unitree_go
 @annotate.autoid("sequential")
 class Go2FrontVideoData_(idl.IdlStruct, typename="unitree_go.msg.dds_.Go2FrontVideoData_"):
     time_frame: types.uint64 = field(default_factory=lambda: 0)
-    video720p: types.sequence[types.uint8] = field(default_factory=lambda: [0])
-    video360p: types.sequence[types.uint8] = field(default_factory=lambda: [0])
-    video180p: types.sequence[types.uint8] = field(default_factory=lambda: [0])
+    video720p: types.sequence[types.uint8] = field(default_factory=lambda: [])
+    video360p: types.sequence[types.uint8] = field(default_factory=lambda: [])
+    video180p: types.sequence[types.uint8] = field(default_factory=lambda: [])
 
 
