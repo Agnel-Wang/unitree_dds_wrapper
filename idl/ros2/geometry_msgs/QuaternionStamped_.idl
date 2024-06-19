@@ -1,0 +1,32 @@
+// generated from rosidl_generator_dds_idl/resource/idl.idl.em
+// with input from geometry_msgs:msg/QuaternionStamped.idl
+// generated code does not contain a copyright notice
+#include "Quaternion_.idl"
+#include "Header_.idl"
+
+#ifndef __geometry_msgs__msg__quaternion_stamped__idl__
+#define __geometry_msgs__msg__quaternion_stamped__idl__
+
+
+module geometry_msgs {
+
+module msg {
+
+module dds_ {
+
+
+struct QuaternionStamped_ {
+std_msgs::msg::dds_::Header_ header;
+geometry_msgs::msg::dds_::Quaternion_ quaternion;
+
+};
+
+
+};  // module dds_
+
+};  // module msg
+
+};  // module geometry_msgs
+
+
+#endif  // __geometry_msgs__msg__quaternion_stamped__idl__

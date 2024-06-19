@@ -1,0 +1,54 @@
+// generated from rosidl_generator_dds_idl/resource/idl.idl.em
+// with input from unitree_hx:msg/LowState.idl
+// generated code does not contain a copyright notice
+#include "BmsState_hx.idl"
+#include "IMUState_hx.idl"
+#include "MotorState_hx.idl"
+
+#ifndef __unitree_hx__msg__low_state__idl__
+#define __unitree_hx__msg__low_state__idl__
+
+
+module unitree_hx {
+
+module msg {
+
+module dds_ {
+
+
+struct LowState_ {
+octet                               head[2];
+
+unsigned long                       version[2];
+
+unsigned long                       tick;
+
+unitree_hx::msg::dds_::IMUState_    imu_state;
+unitree_hx::msg::dds_::MotorState_  motor_state[30];
+unitree_hx::msg::dds_::BmsState_    bms_state;
+
+short                               foot_force_state[4];
+short                               foot_force_est_state[4];
+octet                               wireless_remote[40];
+
+short                               temperature[10];
+float                               value[10];
+unsigned short                      fan_state[10];
+
+unsigned long                       state[10];         //0->状态          
+
+octet                               data[64];
+
+unsigned long                       reserve[2];
+unsigned long                       crc;
+};
+
+
+};  // module dds_
+
+};  // module msg
+
+};  // module unitree_hx
+
+
+#endif  // __unitree_hx__msg__low_state__idl__

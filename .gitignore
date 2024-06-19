@@ -1,9 +1,10 @@
+# IDE
 .vscode
+
+# cpp
 build
-idl/include
-idl/lib
-include/unitree_dds_wrapper/h1
-include/unitree_dds_wrapper/b2
-include/unitree_dds_wrapper/z1
-test
-python
+
+# python
+__pycache__
+*.pyc
+*.egg-info

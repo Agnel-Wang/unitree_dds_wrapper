@@ -1,0 +1,42 @@
+// generated from rosidl_generator_dds_idl/resource/idl.idl.em
+// with input from unitree_hx:msg/MotorState.idl
+// generated code does not contain a copyright notice
+
+#ifndef __unitree_hx__msg__motor_state__idl__
+#define __unitree_hx__msg__motor_state__idl__
+
+
+module unitree_hx {
+
+module msg {
+
+module dds_ {
+
+
+struct MotorState_ {
+octet mode;
+float q;
+float dq;
+float ddq;
+float tau_est;
+float q_raw;
+float dq_raw;
+float ddq_raw;
+
+long            temperature[2];
+unsigned long   sensor[2];
+float           vol;    
+unsigned long   motorstate;
+
+unsigned long   reserve[4];         //0->电机总丢包
+};
+
+
+};  // module dds_
+
+};  // module msg
+
+};  // module unitree_hx
+
+
+#endif  // __unitree_hx__msg__motor_state__idl__

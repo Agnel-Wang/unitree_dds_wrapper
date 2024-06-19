@@ -1,0 +1,30 @@
+// generated from rosidl_generator_dds_idl/resource/idl.idl.em
+// with input from builtin_interfaces:msg/Time.idl
+// generated code does not contain a copyright notice
+
+#ifndef __builtin_interfaces__msg__time__idl__
+#define __builtin_interfaces__msg__time__idl__
+
+
+module builtin_interfaces {
+
+module msg {
+
+module dds_ {
+
+
+struct Time_ {
+long sec;
+unsigned long nanosec;
+
+};
+
+
+};  // module dds_
+
+};  // module msg
+
+};  // module builtin_interfaces
+
+
+#endif  // __builtin_interfaces__msg__time__idl__

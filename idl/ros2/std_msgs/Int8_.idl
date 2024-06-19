@@ -1,0 +1,24 @@
+#ifndef __std_msgs__msg__int8__idl__
+#define __std_msgs__msg__int8__idl__
+
+
+module std_msgs {
+
+module msg {
+
+module dds_ {
+
+
+struct Int8_ {
+    int8 data;
+};
+
+
+};  // module dds_
+
+};  // module msg
+
+};  // module std_msgs
+
+
+#endif  // __std_msgs__msg__int8__idl__

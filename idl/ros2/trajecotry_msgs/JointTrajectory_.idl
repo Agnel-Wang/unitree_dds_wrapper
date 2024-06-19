@@ -1,0 +1,22 @@
+#ifndef __trajectory_msgs__msg__joint_trajectory__idl__
+#define __trajectory_msgs__msg__joint_trajectory__idl__
+
+#include "Header_.idl"
+#include "JointTrajectoryPoint_.idl"
+
+module trajectory_msgs 
+{
+module msg 
+{
+module dds_ 
+{
+    struct JointTrajectory_ {
+      std_msgs::msg::dds_::Header_ header;
+      sequence<string> joint_names;
+      sequence<trajectory_msgs::msg::dds_::JointTrajectoryPoint_> points;
+    };
+};
+};
+};
+
+#endif  // __trajectory_msgs__msg__joint_trajectory__idl__
