@@ -1,4 +1,4 @@
-#include "unitree/dds_wrapper/go2/go2_sub.h"
+#include "unitree/dds_wrapper/robots/go2/go2_sub.h"
 
 int main(int argc, char** argv)
 {
@@ -19,7 +19,7 @@ int main(int argc, char** argv)
 
     if(!sport_state->isTimeout())
       std::cout <<" ***** SportMode State ***** " << std::endl;
-      std::cout <<"mode: " << sport_state->state_name() << std::endl;
+      // std::cout <<"mode: " << sport_state->state_name() << std::endl;
       std::cout <<"position: " << sport_state->position().transpose()
                 << " velocity: " << sport_state->velocity().transpose() << std::endl;
 
@@ -29,4 +29,3 @@ int main(int argc, char** argv)
 
   return 0;
 }
-

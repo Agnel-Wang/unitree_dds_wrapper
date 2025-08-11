@@ -1,5 +1,4 @@
-#ifndef _UT_ROBOT_PUBLISHER_H_
-#define _UT_ROBOT_PUBLISHER_H_
+#pragma once
 
 #include <unitree/robot/channel/channel_publisher.hpp>
 #include <atomic>
@@ -167,5 +166,3 @@ private:
 
 } // namespace robot
 } // namespace unitree
-
-#endif // _UT_ROBOT_PUBLISHER_H_

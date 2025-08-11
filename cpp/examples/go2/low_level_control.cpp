@@ -1,4 +1,4 @@
-#include <unitree/dds_wrapper/go2/go2.h>
+#include <unitree/dds_wrapper/robots/go2/go2.h>
 #include <unitree/common/thread/recurrent_thread.hpp>
 
 /**

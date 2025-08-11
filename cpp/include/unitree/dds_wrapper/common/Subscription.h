@@ -1,9 +1,9 @@
-#ifndef _UT_ROBOT_SUBSCRIPTION_H_
-#define _UT_ROBOT_SUBSCRIPTION_H_
+#pragma once
 
 #include <unitree/robot/channel/channel_subscriber.hpp>
 #include <mutex>
 #include <thread>
+#include <spdlog/spdlog.h>
 
 namespace unitree
 {
@@ -39,10 +39,19 @@ public:
   }
 
   void wait_for_connection() {
+    auto t0 = std::chrono::steady_clock::now();
+    bool warn_info = false;
     while(isTimeout()) {
       std::this_thread::sleep_for(std::chrono::milliseconds(100));
+      if (!warn_info && std::chrono::steady_clock::now() - t0 > std::chrono::seconds(2)) {
+        warn_info = true;
+        spdlog::warn("Waiting for connection {}", sub_->GetChannelName());
+      }
     }
-    sleep(1); // wait for stable communicaiton
+    std::this_thread::sleep_for(std::chrono::milliseconds(100)); // wait for stable communicaiton
+    if (warn_info) {
+      spdlog::info("Connected {}", sub_->GetChannelName());
+    }
   }
 
   MessageType msg_;
@@ -59,5 +68,3 @@ protected:
 
 }; // namespace robot
 }; // namespace unitree
-
-#endif // _UT_ROBOT_SUBSCRIPTION_H_

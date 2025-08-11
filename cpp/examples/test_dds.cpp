@@ -1,14 +1,15 @@
-#include "unitree/dds_wrapper/go2/go2_sub.h"
-#include "unitree/dds_wrapper/go2/go2_pub.h"
+#include "unitree/dds_wrapper/robots/go2/go2_sub.h"
+#include "unitree/dds_wrapper/robots/go2/go2_pub.h"
 
 int main(int argc, char** argv)
 {
     // Init DDS
     std::string iface = (argc > 1) ? argv[1] : "";
+    
     unitree::robot::ChannelFactory::Instance()->Init(0, iface);
 
-    auto pub = std::make_unique<unitree::robot::go2::publisher::LowState>();
-    auto sub = std::make_shared<unitree::robot::go2::subscription::LowState>();
+    auto pub = std::make_unique<unitree::robot::go2::publisher::LowState>("rt/test_dds");
+    auto sub = std::make_shared<unitree::robot::go2::subscription::LowState>("rt/test_dds");
 
     while (true)
     {

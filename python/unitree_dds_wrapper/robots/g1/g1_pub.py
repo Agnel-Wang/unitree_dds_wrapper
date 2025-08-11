@@ -1,14 +1,15 @@
 from unitree_dds_wrapper.publisher import Publisher
-from unitree_dds_wrapper.idl import unitree_hx, unitree_go
+from unitree_dds_wrapper.idl import unitree_hg, unitree_go
 from unitree_dds_wrapper.utils.joystick import Joystick
 import numpy as np
 import struct
 from unitree_dds_wrapper.utils.crc import crc32
+from unitree_dds_wrapper.robots import g1
 
 class LowCmd(Publisher):
-    def __init__(self, participant = None, topic = "rt/lowcmd_hx"):
-        super().__init__(unitree_hx.msg.dds_.LowCmd_, topic, participant)
-        self.msg: unitree_hx.msg.dds_.LowCmd_
+    def __init__(self, participant = None, topic = "rt/lowcmd"):
+        super().__init__(unitree_hg.msg.dds_.LowCmd_, topic, participant)
+        self.msg: unitree_hg.msg.dds_.LowCmd_
         self.__packCRCformat = '<2B2x2I' \
          + 'B3x5f3I' * len(self.msg.motor_cmd) \
          + '41B104B3x3I'
@@ -47,97 +48,32 @@ class LowCmd(Publisher):
         self.msg.crc = crc32(calcdata)
 
 class LowState(Publisher):
-    def __init__(self, participant = None, topic = "rt/lowstate_hx"):
-        super().__init__(unitree_hx.msg.dds_.LowState_, topic, participant)
-        self.msg: unitree_hx.msg.dds_.LowState_
-
-    def set_wireless_remote_state(self, joystick: Joystick):
-        """
-        从Joystick中提取wireless_remote
-        """
-        # prepare an empty list
-        wireless_remote = [0 for _ in range(40)]
-
-        # Buttons
-        wireless_remote[2] = int(''.join([f'{key}' for key in [
-        0, 0, round(joystick.LT.data), round(joystick.RT.data), 
-        joystick.back.data, joystick.start.data, joystick.LB.data, joystick.RB.data,
-        ]]), 2)
-        wireless_remote[3] = int(''.join([f'{key}' for key in [
-        joystick.left.data, joystick.down.data, joystick.right.data, 
-        joystick.up.data, joystick.Y.data, joystick.X.data, joystick.B.data, joystick.A.data,
-        ]]), 2)
-
-        # Axes
-        sticks = [joystick.lx.data, joystick.rx.data, joystick.ry.data, joystick.ly.data]
-        packs = list(map(lambda x: struct.pack('f', x), sticks))
-        wireless_remote[4:8] = packs[0]
-        wireless_remote[8:12] = packs[1]
-        wireless_remote[12:16] = packs[2]
-        wireless_remote[20:24] = packs[3]
-
-        self.msg.wireless_remote = wireless_remote
+    def __init__(self, participant = None, topic = "rt/lowstate"):
+        super().__init__(unitree_hg.msg.dds_.LowState_, topic, participant)
+        self.msg: unitree_hg.msg.dds_.LowState_
 
 class ArmSdk(Publisher):
     def __init__(self):
-        super().__init__(message=unitree_hx.msg.dds_.LowCmd_, topic="rt/arm_sdk")
-        self.msg: unitree_hx.msg.dds_.LowCmd_
-        self.msg.motor_cmd[23].q = 1
+        super().__init__(message=unitree_hg.msg.dds_.LowCmd_, topic="rt/arm_sdk")
+        self.msg: unitree_hg.msg.dds_.LowCmd_
 
-        class ArmData:
-            def __init__(self):
-                self.kp: np.array = np.zeros(5)
-                self.kd: np.array = np.zeros(5)
-                self.q: np.array = np.zeros(5)
-                self.dq: np.array = np.zeros(5)
-                self.tau: np.array = np.zeros(5)
-
-        self.l = ArmData()
-        self.r = ArmData()
-        self.waist = self.msg.motor_cmd[12]
-
-    def setGain(self, kp, kd):
-        self.l.kp = kp.copy()
-        self.l.kd = kd.copy()
+    @property
+    def weight(self):
+        return self.msg.motor_cmd[29].q
     
-    def pre_communication(self):
-        for i in range(5):
-            self.msg.motor_cmd[i + 13].kp = self.l.kp[i]
-            self.msg.motor_cmd[i + 13].kd = self.l.kd[i]
-            self.msg.motor_cmd[i + 13].q = self.l.q[i]
-            self.msg.motor_cmd[i + 13].dq = self.l.dq[i]
-            self.msg.motor_cmd[i + 13].tau = self.l.tau[i]
-            self.msg.motor_cmd[i + 18].kp = self.r.kp[i]
-            self.msg.motor_cmd[i + 18].kd = self.r.kd[i]
-            self.msg.motor_cmd[i + 18].q = self.r.q[i]
-            self.msg.motor_cmd[i + 18].dq = self.r.dq[i]
-            self.msg.motor_cmd[i + 18].tau = self.r.tau[i]
+    def Weight(self, w):
+        self.msg.motor_cmd[29].q = w
+
+    def SetDefaultGain(self, kp = [40, 40, 40, 40, 40, 40, 40], kd = [1,1,1,1,1,1,1]):
+        for i, id in enumerate(g1.LarmJointIndex):
+            self.msg.motor_cmd[id].kp = kp[i]
+            self.msg.motor_cmd[id].kd = kd[i]
+        for i, id in enumerate(g1.RarmJointIndex):
+            self.msg.motor_cmd[id].kp = kp[i]
+            self.msg.motor_cmd[id].kd = kd[i]
 
 class UnitreeHand(Publisher):
     def __init__(self):
         super().__init__(unitree_go.msg.dds_.MotorCmds_, "rt/hand/cmd")
         self.msg: unitree_go.msg.dds_.MotorCmds_
         self.msg.cmds  = [unitree_go.msg.dds_.MotorCmd_() for _ in range(2 * 7)]
-
-        class HandData:
-            def __init__(self):
-                self.kp: np.array = np.zeros(7)
-                self.kd: np.array = np.zeros(7)
-                self.q: np.array = np.zeros(7)
-                self.dq: np.array = np.zeros(7)
-                self.tau: np.array = np.zeros(7)
-        self.l = HandData()
-        self.r = HandData()
-    
-    def pre_communication(self):
-        for i in range(7):
-            self.msg.cmds[i].kp = self.l.kp[i]
-            self.msg.cmds[i].kd = self.l.kd[i]
-            self.msg.cmds[i].q = self.l.q[i]
-            self.msg.cmds[i].dq = self.l.dq[i]
-            self.msg.cmds[i].tau = self.l.tau[i]
-            self.msg.cmds[i+7].kp = self.r.kp[i]
-            self.msg.cmds[i+7].kd = self.r.kd[i]
-            self.msg.cmds[i+7].q = self.r.q[i]
-            self.msg.cmds[i+7].dq = self.r.dq[i]
-            self.msg.cmds[i+7].tau = self.r.tau[i]

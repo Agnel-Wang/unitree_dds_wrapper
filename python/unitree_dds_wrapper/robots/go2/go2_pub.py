@@ -55,42 +55,18 @@ class LowState(Publisher):
     super().__init__(dds_.LowState_, topic, participant)
     self.msg: dds_.LowState_
 
-  def set_wireless_remote_state(self, joystick: Joystick):
-    """
-    从Joystick中提取wireless_remote
-    """
-    # prepare an empty list
-    wireless_remote = [0 for _ in range(40)]
-
-    # Buttons
-    wireless_remote[2] = int(''.join([f'{key}' for key in [
-      0, 0, round(joystick.LT.data), round(joystick.RT.data), 
-      joystick.back.data, joystick.start.data, joystick.LB.data, joystick.RB.data,
-    ]]), 2)
-    wireless_remote[3] = int(''.join([f'{key}' for key in [
-      joystick.left.data, joystick.down.data, joystick.right.data, 
-      joystick.up.data, joystick.Y.data, joystick.X.data, joystick.B.data, joystick.A.data,
-    ]]), 2)
-
-    # Axes
-    sticks = [joystick.lx.data, joystick.rx.data, joystick.ry.data, joystick.ly.data]
-    packs = list(map(lambda x: struct.pack('f', x), sticks))
-    wireless_remote[4:8] = packs[0]
-    wireless_remote[8:12] = packs[1]
-    wireless_remote[12:16] = packs[2]
-    wireless_remote[20:24] = packs[3]
-
-    self.msg.wireless_remote = wireless_remote
-
 class MotorStates(Publisher):
   def __init__(self, participant = None, topic = "rt/motorstates"):
     super().__init__(dds_.MotorStates_, topic, participant)
     self.msg: dds_.MotorStates_
 
 class MotorCmds(Publisher):
-  def __init__(self, participant = None, topic = "rt/motorcmds"):
+  def __init__(self, participant = None, topic = "rt/motorcmds", motor_num = None):
     super().__init__(dds_.MotorCmds_, topic, participant)
     self.msg: dds_.MotorCmds_
+    if motor_num is not None:
+      self.msg = dds_.MotorCmds_()
+      self.msg.cmds = [dds_.MotorCmd_() for _ in range(motor_num)]
 
 class ImuState(Publisher):
   def __init__(self, participant = None, topic = "rt/imustate"):

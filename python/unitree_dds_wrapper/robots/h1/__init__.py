@@ -1,5 +1,8 @@
 from . import h1_pub as pub
 from . import h1_sub as sub
+from . import simple_controller
+
+DEFAULT_ARM_Q = [0.47, 0, 0, 0.3] # default H1 controller arm joint position
 
 from enum import IntEnum
 
@@ -26,4 +29,14 @@ class JointIndex(IntEnum):
     LeftShoulderYaw = 18
     LeftElbow = 19
 
-__all__ = ['pub', 'sub', 'JointIndex']
+class LarmJointIndex(IntEnum):
+    LeftShoulderPitch = 16
+    LeftShoulderRoll = 17
+    LeftShoulderYaw = 18
+    LeftElbow = 19
+
+class RarmJointIndex(IntEnum):
+    RightShoulderPitch = 12
+    RightShoulderRoll = 13
+    RightShoulderYaw = 14
+    RightElbow = 15

@@ -1,5 +1,4 @@
-#ifndef _UT_COMMON_JOYSTICK_HPP_
-#define _UT_COMMON_JOYSTICK_HPP_
+#pragma once
 
 #include <math.h>
 #include <stdint.h>
@@ -130,6 +129,3 @@ struct UnitreeJoystick
 
 } // namespace common
 } // namespace unitree
-
-#endif//_UT_COMMON_JOYSTICK_HPP_
-
