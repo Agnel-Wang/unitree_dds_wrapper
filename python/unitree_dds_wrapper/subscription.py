@@ -1,11 +1,10 @@
-from cyclonedds.domain import DomainParticipant
+from .dds_context import global_participant
 from cyclonedds.topic import Topic
 from cyclonedds.sub import DataReader
-from cyclonedds.util import duration
 import threading
 import time
 
-from abc import ABC, abstractmethod
+from abc import ABC
 
 class Subscription(ABC):
   """
@@ -13,7 +12,8 @@ class Subscription(ABC):
   topic: 话题名称
   """
   def __init__(self, message, topic, participant = None):
-    self._participant = participant if participant else DomainParticipant()
+    self._topic_name = topic
+    self._participant = participant if participant else global_participant
     self._topic = Topic(self._participant, topic, message)
     self._reader = DataReader(self._participant, self._topic)
     
@@ -22,7 +22,7 @@ class Subscription(ABC):
 
     self.lock = threading.Lock()
     self._read_cmd_thread = threading.Thread(target=self._listen_cmd)
-    self._read_cmd_thread.setDaemon(True)
+    self._read_cmd_thread.daemon = True
     self._read_cmd_thread.start()
     
     self._last_recv_time = 0.
@@ -46,5 +46,15 @@ class Subscription(ABC):
     pass
 
   def wait_for_connection(self):
+    t0 = time.time()
+    warn_info = False
     while self.msg is None:
       time.sleep(0.1)
+      if not warn_info:
+        if time.time() - t0 > 2.:
+          print(f"Waiting for connection {self._topic_name} ...")
+          warn_info = True
+    if warn_info:
+      print(f"Connected {self._topic_name}.")
+    time.sleep(0.1)
+    

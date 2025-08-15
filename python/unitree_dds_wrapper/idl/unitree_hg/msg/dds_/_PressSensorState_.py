@@ -19,7 +19,7 @@ import cyclonedds.idl.types as types
 @dataclass
 @annotate.final
 @annotate.autoid("sequential")
-class PressSensorState(idl.IdlStruct, typename="unitree_hg.msg.dds_.PressSensorState"):
+class PressSensorState_(idl.IdlStruct, typename="unitree_hg.msg.dds_.PressSensorState"):
     pressure: types.array[types.float32, 12] = field(default_factory=lambda: [0.0 for _ in range(12)])
     temperature: types.array[types.float32, 12] = field(default_factory=lambda: [0.0 for _ in range(12)])
     lost: types.uint32 = field(default_factory=lambda: 0)

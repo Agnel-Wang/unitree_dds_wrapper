@@ -1,0 +1,27 @@
+[build-system]
+requires = ["setuptools>=61", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "unitree_dds_wrapper"
+version = "2.0.4"
+description = "Unitree DDS Wrapper to simplify the communication with Unitree Robots"
+authors = [
+    { name = "Agnel Wang", email = "2273421791wk@gmail.com"}
+]
+license = { text = "Apache License 2.0" }
+dependencies = [
+    "cyclonedds",
+    "pygame",
+    "numpy",
+]
+
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: Apache Software License",
+    "Operating System :: OS Independent"
+]
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["unitree_dds_wrapper*"]

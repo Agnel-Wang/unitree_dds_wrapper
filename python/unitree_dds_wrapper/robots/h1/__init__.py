@@ -1,8 +1,5 @@
 from . import h1_pub as pub
 from . import h1_sub as sub
-from . import simple_controller
-
-DEFAULT_ARM_Q = [0.47, 0, 0, 0.3] # default H1 controller arm joint position
 
 from enum import IntEnum
 

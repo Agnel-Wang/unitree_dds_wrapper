@@ -14,5 +14,6 @@ from ._LowCmd_ import LowCmd_
 from ._LowState_ import LowState_
 from ._MotorCmd_ import MotorCmd_
 from ._MotorState_ import MotorState_
-from ._PressSensorState_ import PressSensorState
-__all__ = ["BmsCmd_", "BmsState_", "HandCmd_", "HandState_", "IMUState_", "LowCmd_", "LowState_", "MotorCmd_", "MotorState_", "PressSensorState", ]
+from ._PressSensorState_ import PressSensorState_
+from ._SportModeState_ import SportModeState_
+__all__ = ["BmsCmd_", "BmsState_", "HandCmd_", "HandState_", "IMUState_", "LowCmd_", "LowState_", "MotorCmd_", "MotorState_", "PressSensorState_", "SportModeState_"]

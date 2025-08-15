@@ -1,6 +1,5 @@
 from . import g1_pub as pub
 from . import g1_sub as sub
-from . import simple_controller
 
 from enum import IntEnum
 
