@@ -10,17 +10,17 @@ class LowCmd(Publisher):
     def __init__(self, participant = None, topic = "rt/lowcmd"):
         super().__init__(unitree_hg.msg.dds_.LowCmd_, topic, participant)
         self.msg: unitree_hg.msg.dds_.LowCmd_
-        self.__packCRCformat = '<2B2x2I' \
-         + 'B3x5f3I' * len(self.msg.motor_cmd) \
-         + '41B104B3x3I'
+        self.__packCRCformat = '<2B2x' \
+         + 'B3x5fI' * len(self.msg.motor_cmd) \
+         + '5I'
 
     def pre_communication(self):
         self.__pack_crc()
 
     def __pack_crc(self):
         rawdata = []
-        rawdata.extend(self.msg.head)
-        rawdata.extend(self.msg.version)
+        rawdata.append(self.msg.mode_pr)
+        rawdata.append(self.msg.mode_machine)
         for i in range(len(self.msg.motor_cmd)):
             rawdata.append(self.msg.motor_cmd[i].mode)
             rawdata.append(self.msg.motor_cmd[i].q)
@@ -28,13 +28,7 @@ class LowCmd(Publisher):
             rawdata.append(self.msg.motor_cmd[i].tau)
             rawdata.append(self.msg.motor_cmd[i].kp)
             rawdata.append(self.msg.motor_cmd[i].kd)
-            rawdata.extend(self.msg.motor_cmd[i].reserve)
-        rawdata.append(self.msg.bms_cmd.cmd)
-        rawdata.extend(self.msg.bms_cmd.reserve)
-        rawdata.extend(self.msg.led_cmd)
-        rawdata.extend(self.msg.fan_cmd)
-        rawdata.extend(self.msg.cmd)
-        rawdata.extend(self.msg.data)
+            rawdata.append(self.msg.motor_cmd[i].reserve)
         rawdata.extend(self.msg.reserve)
         rawdata.append(self.msg.crc)
 
@@ -53,8 +47,8 @@ class LowState(Publisher):
         self.msg: unitree_hg.msg.dds_.LowState_
 
 class ArmSdk(Publisher):
-    def __init__(self):
-        super().__init__(message=unitree_hg.msg.dds_.LowCmd_, topic="rt/arm_sdk")
+    def __init__(self, topic: str = "rt/arm_sdk"):
+        super().__init__(message=unitree_hg.msg.dds_.LowCmd_, topic=topic)
         self.msg: unitree_hg.msg.dds_.LowCmd_
 
     @property
