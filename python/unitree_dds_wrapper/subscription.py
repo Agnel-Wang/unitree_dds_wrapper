@@ -14,23 +14,43 @@ class Subscription(ABC):
   """
   message: 消息类型
   topic: 话题名称
+  autospin:
+    默认是直接读取消息至self.msg; 但这样(在pub高频且msg复杂时)对CPU占用较高
+    如果设置为False，则需要手动读取消息
   """
-  def __init__(self, message, topic, participant = None):
+  def __init__(self, message, topic, participant = None, autospin=True):
     self._topic_name = topic
     self._participant = participant if participant else global_participant
     self._topic = Topic(self._participant, topic, message)
-    self._reader = DataReader(self._participant, self._topic)
+    qos = Qos(
+      Policy.History.KeepLast(1),
+      Policy.Reliability.BestEffort,
+    )
+    self._reader = DataReader(self._participant, self._topic, qos=qos)
     
     # 不初始化message() 可用于判断初次接受消息
     self.msg = None
 
     self.lock = threading.Lock()
-    self._read_cmd_thread = threading.Thread(target=self._listen_cmd)
-    self._read_cmd_thread.daemon = True
-    self._read_cmd_thread.start()
     
     self._last_recv_time = 0.
     self.timeout_ms = 1000.
+
+    self._autospin = autospin
+    if autospin:
+      self._read_thread = threading.Thread(target=self._listen_cmd)
+      self._read_thread.daemon = True
+      self._read_thread.start()
+
+  def take_one(self):
+    try:
+      samples = self._reader.take(N=1)
+    except Exception as e:
+      return
+    if samples and not isinstance(samples[0], InvalidSample):
+      self._last_recv_time = time.time()
+      with self.lock:
+        self.msg = samples[0]
 
   def _listen_cmd(self):
     for msg in self._reader.take_iter():
@@ -41,6 +61,8 @@ class Subscription(ABC):
         self.post_communication()
   
   def isTimeout(self) -> bool:
+    if not self._autospin:
+      self.take_one()
     return time.time() - self._last_recv_time > self.timeout_ms / 1000.
   
   def post_communication(self):
@@ -54,6 +76,8 @@ class Subscription(ABC):
     warn_info = False
     while self.msg is None:
       time.sleep(0.1)
+      if not self._autospin:
+        self.take_one()
       if not warn_info:
         if time.time() - t0 > 2.:
           print(f"Waiting for connection {self._topic_name} ...")

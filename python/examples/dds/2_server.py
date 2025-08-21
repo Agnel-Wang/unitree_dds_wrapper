@@ -1,16 +1,24 @@
 from unitree_dds_wrapper.server import Server
 import time
+import asyncio
+from typing import Tuple
 
 class TestServer(Server):
     def __init__(self):
         super().__init__("test")
-        self.register(1000, self.test_callback)
+        self.register(1000, self.sync_handler)
+        self.register(1001, self.async_handler)
 
-    def test_callback(self, parameter: str) -> tuple[int, str]:
+    def sync_handler(self, parameter: str) -> Tuple[int, str]:
         print(f"Received parameter: {parameter}")
-
+        time.sleep(1)
         return 0, f"Response for {parameter}"
     
+    async def async_handler(self, parameter: str) -> Tuple[int, str]:
+        print(f"Async handler received parameter: {parameter}")
+        await asyncio.sleep(1)
+        return 0, f"Async response for {parameter}"
+
 def main():
     server = TestServer()
     server.start()
