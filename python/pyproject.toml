@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "unitree_dds_wrapper"
-version = "2.0.5"
+version = "2.0.6"
 description = "Unitree DDS Wrapper to simplify the communication with Unitree Robots"
 authors = [
     { name = "Agnel Wang", email = "2273421791wk@gmail.com"}
