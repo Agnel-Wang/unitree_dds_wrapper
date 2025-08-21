@@ -1,9 +1,10 @@
 from unitree_dds_wrapper.idl.unitree_api.msg import dds_
-from unitree_dds_wrapper.publisher import Publisher
+from unitree_dds_wrapper.publisher import Publisher, RequestPublisher
 from unitree_dds_wrapper.subscription import Subscription
 import time
 import threading
 import copy
+from typing import Tuple
 
 UT_ROBOT_ERR_CLIENT_API_TIMEOUT = 3104
 UT_ROBOT_ERR_SERVER_API_PARAMETER = 3204
@@ -13,13 +14,6 @@ class ResponseTimeoutError(TimeoutError):
     def __init__(self, request_id):
         super().__init__(f"Timeout waiting for response to request_id={request_id}")
         self.request_id = request_id
-
-
-class RequestPublisher(Publisher):
-    def __init__(self, topic):
-        super().__init__(dds_.Request_, topic)
-        self.msg: dds_.Request_
-
 
 class ResponseSubscriber(Subscription):
     def __init__(self, topic):
@@ -49,7 +43,7 @@ class ResponseSubscriber(Subscription):
                     ev.set()  # 通知等待线程
             # else: 非自己请求或已超时清理过的请求，直接丢弃
 
-    def get(self, request_id: int, timeout: float | None = None) -> dds_.Response_:
+    def get(self, request_id: int, timeout = None) -> dds_.Response_:
         # 若未 expect，也给一次兜底；但建议总是先 expect 再发送
         with self._dict_lock:
             ev = self._events.get(request_id)
@@ -72,7 +66,6 @@ class ResponseSubscriber(Subscription):
             self._events.pop(request_id, None)
             self._pending_request_ids.discard(request_id)
 
-        # 理论上 resp 不会是 None；但为了健壮性做一次防御
         if resp is None:
             raise ResponseTimeoutError(request_id)
 
@@ -81,11 +74,11 @@ class ResponseSubscriber(Subscription):
 
 class Client:
     def __init__(self, name: str):
-        self._pub = RequestPublisher(topic=f"rt/api/{name}/request")
+        self._pub = RequestPublisher(topic=f"rt/api/{name}/request", message=dds_.Request_)
         self._sub = ResponseSubscriber(topic=f"rt/api/{name}/response")
         self.timeout_s = 1.0
 
-    def call(self, api_id: int, parameter: str) -> tuple[int, str]:
+    def call(self, api_id: int, parameter: str) -> Tuple[int, str]:
         # 生成唯一请求 ID（也可以用 uuid/int 计数器）
         request_id = time.monotonic_ns()
 
