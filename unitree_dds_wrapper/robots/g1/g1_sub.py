@@ -44,11 +44,11 @@ class SportModeState(Subscription):
         super().__init__(unitree_hg.msg.dds_.SportModeState_, topic=topic, participant=participant, autospin=autospin)
         self.msg: unitree_hg.msg.dds_.SportModeState_
 
+
 class BmsState(Subscription):
     """
-    用于获取当前G1的电池状态
-    默认不自动读取消息, 需要时调用take_one()更新
+    用于获取G1的电池状态
     """
-    def __init__(self, participant = None, topic: str = "rt/bmsstate", autospin=False):
+    def __init__(self, participant = None, topic: str = "rt/lf/bmsstate", autospin=True):
         super().__init__(unitree_hg.msg.dds_.BmsState_, topic=topic, participant=participant, autospin=autospin)
         self.msg: unitree_hg.msg.dds_.BmsState_
