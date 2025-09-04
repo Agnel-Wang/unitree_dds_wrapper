@@ -1,5 +1,6 @@
 from . import g1_pub as pub
 from . import g1_sub as sub
+from . import client
 
 from enum import IntEnum
 
