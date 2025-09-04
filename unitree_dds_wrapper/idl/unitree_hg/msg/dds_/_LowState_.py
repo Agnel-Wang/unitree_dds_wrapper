@@ -28,6 +28,31 @@ class LowState_(idl.IdlStruct, typename="unitree_hg.msg.dds_.LowState_"):
     tick: types.uint32 = field(default_factory=lambda: 0)
     imu_state: 'unitree_dds_wrapper.idl.unitree_hg.msg.dds_.IMUState_' = field(default_factory=lambda: unitree_hg.msg.dds_.IMUState_())
     motor_state: types.array['unitree_dds_wrapper.idl.unitree_hg.msg.dds_.MotorState_', 35] = field(default_factory=lambda: [unitree_hg.msg.dds_.MotorState_() for _ in range(35)])
+    """
+    0x00001	过流 \n
+    0x00002	瞬态过压 \n
+    0x00004	持续过压 \n
+    0x00008	瞬态欠压 \n
+    0x00010	芯片过热 \n
+    0x00020	MOS过热/过冷 \n
+    0x00040	MOS温度异常 \n
+    0x00080	壳体过热/过冷 \n
+    0x00100	壳体温度异常 \n
+    0x00200	绕组过热 \n
+    0x00400	转子编码器1错误 \n
+    0x00800	转子编码器2错误 \n
+    0x01000	输出编码器错误 \n
+    0x02000	标定/BOOT数据错误 \n
+    0x04000	异常复位 \n
+    0x08000	电机锁定，主控认证错误 \n
+    0x10000	芯片验证错误 \n
+    0x20000	标定模式警告 \n
+    0x40000	通信校验错误 \n
+    0x80000	驱动版本过低 \n
+    0x40000000	电机端判断，断连超时 \n
+    0x80000000	pc端判断，断连超时 \n
+    """
+    
     wireless_remote: types.array[types.uint8, 40] = field(default_factory=lambda: [0 for _ in range(40)])
     reserve: types.array[types.uint32, 4] = field(default_factory=lambda: [0, 0, 0, 0])
     crc: types.uint32 = field(default_factory=lambda: 0)

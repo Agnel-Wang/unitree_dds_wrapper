@@ -24,3 +24,26 @@ class MainBoardState_(idl.IdlStruct, typename="unitree_hg.msg.dds_.MainBoardStat
     temperature: types.array[types.int16, 6] = field(default_factory=lambda: [0, 0, 0, 0, 0, 0])
     value: types.array[types.float32, 6] = field(default_factory=lambda: [0., 0., 0., 0., 0., 0.])
     state: types.array[types.uint32, 6] = field(default_factory=lambda: [0, 0, 0, 0, 0, 0])
+    """ Only state[0] avaliable
+    0x00001	上层控制命令超时 \n
+    0x00002	下层反馈数据超时 \n
+    0x00004	imu反馈数据超时 \n
+    0x00008	电机反馈数据超时 \n
+    0x00010	电池反馈数据超时 \n
+    0x00020	宇树实体遥控器反馈数据超时 \n
+    0x00040	电池型号错误 \n
+    0x00080	软启动错误 \n
+    0x00100	电机状态错误 \n
+    0x00200	电机过流保护，触发低限位保护 \n
+    0x00400	电机欠压保护，触发高限位保护 \n
+    0x00800	电机过流保护，触发高限位保护 \n
+    0x01000	软急停开关被按下 \n
+    0x02000	SN错误 \n
+    0x04000	上层机型错误 \n
+    0x08000	下层机型错误 \n
+    0x10000	usb设备错误 \n
+    0x20000	关节超限位错误 \n
+    0x40000	胯部imu数据超时 \n
+    0x80000	主板判断电池欠压保护错误（Under Voltage Protection） \n
+    0x100000	主板判断电机欠压保护错误（Under Voltage Protection） \n
+    """

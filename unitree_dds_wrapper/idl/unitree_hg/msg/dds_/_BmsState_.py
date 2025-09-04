@@ -32,7 +32,30 @@ class BmsState_(idl.IdlStruct, typename="unitree_hg.msg.dds_.BmsState_"):
     temperature: types.array[types.int16, 12] = field(default_factory=lambda: [0 for _ in range(12)])
     cycle: types.uint16 = field(default_factory=lambda: 0)
     manufacturer_date: types.uint16 = field(default_factory=lambda: 0)
+
     bmsstate: types.array[types.uint32, 5] = field(default_factory=lambda: [0 for _ in range(5)])
+    """ Only bmstate[2] avaliable
+
+    0x00001	OVC \n
+    0x00002	UVC \n
+    0x00004	DeadC \n
+    0x00008	OVP \n
+    0x00010	UVP \n
+    0x00020	COC \n
+    0x00040	DOC \n
+    0x00080	CSC \n
+    0x00100	DSC \n
+    0x00200	Tchip \n
+    0x00400	BatOT \n
+    0x00800	BatUT \n
+    0x01000	TPCB \n
+    0x02000	OW \n
+    0x04000	MSMT \n
+    0x08000	FET_Drv \n
+    0x10000	ChipSystemError \n
+    0x20000	ChipSenseError \n
+    """
+
     reserve: types.array[types.uint32, 3] = field(default_factory=lambda: [0 for _ in range(3)])
 
 
