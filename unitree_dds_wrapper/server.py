@@ -6,6 +6,7 @@ from threading import Thread
 import time
 import asyncio
 from concurrent.futures import ThreadPoolExecutor
+from enum import IntEnum
 
 UT_ROBOT_ERR_CLIENT_API_NOT_REG = 3103
 UT_ROBOT_ERR_SERVER_INTERNAL = 3202
@@ -60,17 +61,20 @@ class Server:
         api_id = request.header.identity.api_id
         try:
             if asyncio.iscoroutinefunction(handler):
-                ret, response = await handler(request.parameter)
+                ret = await handler(request.parameter)
             else:
-                ret, response = await self._loop.run_in_executor(
+                ret = await self._loop.run_in_executor(
                     self._executor, handler, request.parameter
                 )
+            if isinstance(ret, IntEnum): # 支持状态码
+                ret = (ret.value, ret.name)
         except Exception as e:
-            ret, response = -1, str(e)
+            ret = (-1, str(e))
 
+        code, response = ret
         msg = dds_.Response_()
         msg.data = response
         msg.header.identity.id = request.header.identity.id
         msg.header.identity.api_id = api_id
-        msg.header.status.code = ret
+        msg.header.status.code = code
         self._pub.write(msg)
