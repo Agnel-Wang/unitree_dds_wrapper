@@ -9,4 +9,3 @@ class LocoClient(Client):
         parameter = json.dumps({"data": enable})
         ret, _ = self.call(7109, parameter)
         return ret
-        

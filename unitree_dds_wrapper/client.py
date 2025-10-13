@@ -78,7 +78,7 @@ class Client:
         self._sub = ResponseSubscriber(topic=f"rt/api/{name}/response")
         self.timeout_s = 1.0
 
-    def call(self, api_id: int, parameter: str) -> Tuple[int, str]:
+    def call(self, api_id: int, parameter: str = "") -> Tuple[int, str]:
         # 生成唯一请求 ID（也可以用 uuid/int 计数器）
         request_id = time.monotonic_ns()
 
