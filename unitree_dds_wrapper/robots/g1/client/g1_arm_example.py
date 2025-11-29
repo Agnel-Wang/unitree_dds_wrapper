@@ -119,6 +119,11 @@ class ArmClient(Client):
         ret, _ = self.call(API_ID_DELETE_TEACH_ACTION, parameter)
         return ret
 
+    def stop_custom_action(self):
+        """ 停止当前正在执行的自定义示教动作 """
+        ret, _ = self.call(API_ID_STOP_CUSTOM_ACTION, "")
+        return ret
+
     def __str__(self):
         msg = "G1 Arm Client\n"
         actions = self.actions()
@@ -134,12 +139,12 @@ class ArmClient(Client):
             msg += f"  - {action['name']} : {action['time']} \n"
         return msg
     
-
 if __name__ == "__main__":
     import sys
     import time
     import argparse
     parser = argparse.ArgumentParser(description="G1 Arm Client")
+    parser.add_argument("--switch", type=int, help="Swtich service status; 0 close, 1 open")
     parser.add_argument("-i", "--id", type=int, help="Unitree action ID to execute")
     parser.add_argument("-l", "--list", action="store_true", help="List available actions")
     parser.add_argument("--name", type=str, help="Custom action Name to execute")
@@ -154,11 +159,17 @@ if __name__ == "__main__":
     if len(sys.argv) == 1:
         parser.print_help()
         exit(0)
+    ret = 0
+
+    from unitree_dds_wrapper.robots.go2.client import RobotState
+    robot_state = RobotState()
+    if args.switch is not None:
+        ret = robot_state.service_switch("g1_arm_example", args.switch)
+        print(f"Service switch returned: {ret}")
 
     client = ArmClient()
     client.timeout_s = 10.0 # 如果是自定义的动作，是180s上限，这个10s会超时
 
-    ret = 0
     if args.id is not None:
         ret = client.execute_unitree_action(args.id)
     elif args.list:

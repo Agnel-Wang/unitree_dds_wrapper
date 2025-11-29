@@ -44,7 +44,7 @@ if __name__ == "__main__":
     import argparse
     parser = argparse.ArgumentParser(description="G1 Arm Client")
     parser.add_argument("-l", "--list", action="store_true", help="List service status")
-    parser.add_argument("-s", "--switch", nargs=2, metavar=('name', 'switch'), help="Switch service status")
+    parser.add_argument("-s", "--switch", nargs=2, metavar=('name', 'switch'), help="Switch service status; 0 close, 1 open")
     args = parser.parse_args()
     if len(sys.argv) == 1:
         parser.print_help()

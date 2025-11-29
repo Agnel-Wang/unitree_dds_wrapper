@@ -2,74 +2,73 @@ import math
 import struct
 import time
 
-class Button:
+class KeyBase:
   """
   Example:
-  >>> button = Button()
-  >>> button(1) # update data
-
-  >>> button.on_pressed # check if button is pressed
-  >>> button.on_released # check if button is released
-  >>> if button.on_pressed:
-  >>>   print(button.click_cnt)
-  >>> if button.on_released:
-  >>>   print(button.last_press_time)
+  >>> key = KeyBase()
+  >>> key.update( True ) # update key state
+  >>> key.on_pressed # check if key is pressed
+  >>> key.on_released # check if key is released
+  >>> if key.on_pressed:
+  >>>   print(key.click_cnt)
+  >>> if key.on_released:
+  >>>   print(key.pressed_time)
   """
-  def __init__(self) -> None:
-    self.data = 0 # button data value
-
-    # common flags
-    self.pressed = False
-    self.on_pressed = False
-    self.on_released = False
-    
-    # special flags
-    self.click_cnt = 0 # used at `on_pressed`
-    self.last_press_time = 0. # used at `on_released`
-
-    self._last_click_time = 0. # Unit: second
-    self._double_click_threhold = 0.5 # Unit: second
-
-  def __call__(self, data) -> None:
-    """Update button data and flags
-    """
-    self.pressed = (data != 0)
-    self.on_pressed = self.pressed and self.data == 0
-    self.on_released = not self.pressed and self.data != 0
-    self.data = data
+  # common flags
+  pressed = False
+  on_pressed = False
+  on_released = False
+  # special flags
+  click_cnt = 0 # used at `on_pressed`
+  pressed_time = 0.0 # used at `on_released`
   
-    # check double click
+  _last_pressed = False
+  _last_click_time = 0.0
+  _double_click_threshold = 1.0 # seconds
+
+  def update(self, is_pressed: bool):
+    self.pressed = is_pressed
+    self.on_pressed = self.pressed and not self._last_pressed
+    self.on_released = not self.pressed and self._last_pressed
+    self._last_pressed = self.pressed
+
     if self.on_pressed:
       now = time.time()
-      if now - self._last_click_time < self._double_click_threhold:
+      if now - self._last_click_time < self._double_click_threshold:
         self.click_cnt += 1
       else:
         self.click_cnt = 1
       self._last_click_time = now
 
-    # check continuous press time
-    if self.on_released:
-      self.last_press_time = time.time() - self._last_click_time
+    if self.pressed:
+      self.pressed_time = time.time() - self._last_click_time
+    if not (self.pressed or self.on_released):
+      self.pressed_time = 0.0
 
-class Axis:
-  def __init__(self) -> None:
-    self.data = 0.0
-    self.pressed = False
-    self.on_pressed = False
-    self.on_released = False
-  
-    self.smooth = 0.03
-    self.deadzone = 0.01
-    self.threshold = 0.5
+class Button(KeyBase):
+  data = 0 # button data value
+  def __init__(self):
+    pass
+  def __call__(self, data) -> None:
+    """Update button data and flags
+    """
+    self.update(data != 0)
+    self.data = data
+
+class Axis(KeyBase):
+  data = 0.0
+  smooth = 0.03
+  deadzone = 0.01
+  threshold = 0.5
+
+  def __init__(self):
+    pass
 
   def __call__(self, data) -> None:
     data_deadzone = 0.0 if math.fabs(data) < self.deadzone else data
     new_data = self.data * (1 - self.smooth) + data_deadzone * self.smooth
-    self.pressed = math.fabs(new_data) > self.threshold
-    self.on_pressed = self.pressed and math.fabs(self.data) < self.threshold
-    self.on_released = not self.pressed and math.fabs(self.data) > self.threshold
+    self.update( math.fabs(new_data) > self.threshold )
     self.data = new_data
-
 
 class Joystick:
   def __init__(self) -> None:
@@ -223,6 +222,7 @@ class PyGameJoystick(Joystick):
       print(self._joystick.get_ball(i), end=" ")
     print("\n")
 
+
 class XboxJoystick(PyGameJoystick):
   def __init__(self) -> None:
     super().__init__()
@@ -284,9 +284,14 @@ class SwitchJoystick(PyGameJoystick):
     self.left(1 if self._joystick.get_hat(0)[0] < -0.5 else 0)
 
 if __name__ == "__main__":
-  # Test Xbox Joystick
-  joy = PyGameJoystick()
+  joy = SwitchJoystick()
+  joy.lx.smooth = 1
   while True:
-    time.sleep(0.1)
+    time.sleep(0.01)
     joy.update()
     joy.print()
+    print(joy.A.pressed)
+    print(joy.A.click_cnt)
+    print(joy.lx.pressed)
+    print(joy.lx.data)
+    print(joy.lx.click_cnt)
