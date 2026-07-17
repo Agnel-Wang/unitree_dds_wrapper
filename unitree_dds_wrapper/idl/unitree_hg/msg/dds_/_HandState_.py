@@ -23,7 +23,7 @@ from unitree_dds_wrapper.idl import unitree_hg
 @annotate.autoid("sequential")
 class HandState_(idl.IdlStruct, typename="unitree_hg.msg.dds_.HandState_"):
     motor_state: types.sequence['unitree_dds_wrapper.idl.unitree_hg.msg.dds_.MotorState_'] = field(default_factory=lambda: [])
-    press_sensor_state: types.sequence['unitree_dds_wrapper.idl.unitree_hg.msg.dds_.PressSensorState'] = field(default_factory=lambda: [])
+    press_sensor_state: types.sequence['unitree_dds_wrapper.idl.unitree_hg.msg.dds_.PressSensorState_'] = field(default_factory=lambda: [])
     imu_state: 'unitree_dds_wrapper.idl.unitree_hg.msg.dds_.IMUState_' = field(default_factory=lambda: unitree_hg.msg.dds_.IMUState_())
     power_v: types.float32 = field(default_factory=lambda: 0.0)
     power_a: types.float32 = field(default_factory=lambda: 0.0)

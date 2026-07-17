@@ -27,7 +27,7 @@ class ArmSdk(Subscription):
     """可用于判断当前是否有程序在控制上肢
     默认不自动读取消息, 需要时调用take_one()更新
     """
-    def __init__(self, participant = None, topic: str = "rt/armsdk", autospin=False):
+    def __init__(self, participant = None, topic: str = "rt/arm_sdk", autospin=False):
         super().__init__(unitree_hg.msg.dds_.LowCmd_, topic=topic, participant=participant, autospin=autospin)
         self.msg: unitree_go.msg.dds_.LowCmd_
 
